@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: src
+      args:
+        PYTHON_IMAGE_VERSION: ${PYTHON_IMAGE_VERSION:-3.10}
+    environment:
+      EBSCO_USERNAME: "${EBSCO_USERNAME}"
+      EBSCO_PASSWORD: "${EBSCO_PASSWORD}"
+      EBSCO_URL: "${EBSCO_URL}"
+      EBSCO_SEARCH: "${EBSCO_SEARCH}"
+    volumes:
+      - "./out:/app/out"
