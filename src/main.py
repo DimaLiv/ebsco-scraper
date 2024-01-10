@@ -73,7 +73,7 @@ def read_last_id():
 def get_article_field(driver, title):
     result = ""
     try:
-        result = driver.find_element_by_xpath(
+        result = driver.find_element(By.XPATH,
             "//dt[contains(text(),'{title}')]/following-sibling::dd".format(title=title)
         ).text
     except Exception as e:
@@ -129,9 +129,9 @@ def site_login(driver):
     assert "EBSCO" in driver.title
 
     # Login page
-    elem = driver.find_element_by_name("user")
+    elem = driver.find_element(By.NAME, "user")
     elem.send_keys(credentials.get('username'))
-    elem = driver.find_element_by_name("password")
+    elem = driver.find_element(By.NAME, "password")
     elem.send_keys(credentials.get('password'))
     elem.send_keys(Keys.RETURN)
 
@@ -141,7 +141,7 @@ def set_parameters(driver):
 
     logger.info("Link to Database and set parameters")
     # Link to database
-    driver.find_element_by_link_text('EBSCOhost Web').click()
+    driver.find_element(By.LINK_TEXT, 'EBSCOhost Web').click()
 
     # Set session ID
     session_id = urllib.parse.quote(str(driver.get_cookie(
@@ -150,19 +150,19 @@ def set_parameters(driver):
 
     #  Set databases
     time.sleep(8)
-    driver.find_element_by_id('selectDBLink').click()
+    driver.find_element(By.ID, 'selectDBLink').click()
     time.sleep(8)
-    driver.find_element_by_name("selectAll").click()
-    driver.find_element_by_name("selectAll").click()
-    driver.find_element_by_id("ctrlSelectDb_dbList_ctl08_itemCheck").click()
-    driver.find_element_by_id("ctrlSelectDb_dbList_ctl16_itemCheck").click()
-    driver.find_element_by_id('btnOK').click()
+    driver.find_element(By.NAME, "selectAll").click()
+    driver.find_element(By.NAME, "selectAll").click()
+    driver.find_element(By.ID, "ctrlSelectDb_dbList_ctl08_itemCheck").click()
+    driver.find_element(By.ID, "ctrlSelectDb_dbList_ctl16_itemCheck").click()
+    driver.find_element(By.ID, 'btnOK').click()
     driver.find_element(By.CSS_SELECTOR, "button.dd-active").click()
     driver.find_element(By.XPATH, "//label[@for='DbTag_1_1']").click()
     # Search
-    driver.find_element_by_id('Searchbox1').send_keys(
+    driver.find_element(By.ID, 'Searchbox1').send_keys(
         os.getenv('EBSCO_SEARCH'))
-    driver.find_element_by_id('SearchButton').click()
+    driver.find_element(By.ID, 'SearchButton').click()
 
 
 def get_article_link(number):
@@ -193,7 +193,7 @@ def main():
     opts.add_argument('--headless')
     opts.add_argument('--no-sandbox')
     opts.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(chrome_options=opts)
+    driver = webdriver.Chrome(options=opts)
     site_login(driver)
     set_parameters(driver)
 
@@ -213,7 +213,7 @@ def main():
     while True:
         error = None
         try:
-            error = driver.find_element_by_id('ErrorMessageLabel')
+            error = driver.find_element(By.ID, 'ErrorMessageLabel')
         except Exception as e:
             pass
         if error:

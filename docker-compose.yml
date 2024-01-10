@@ -5,7 +5,7 @@ services:
     build:
       context: src
       args:
-        PYTHON_IMAGE_VERSION: ${PYTHON_IMAGE_VERSION:-3.10}
+        PYTHON_IMAGE_VERSION: ${PYTHON_IMAGE_VERSION:-3.11}
     environment:
       EBSCO_USERNAME: "${EBSCO_USERNAME}"
       EBSCO_PASSWORD: "${EBSCO_PASSWORD}"
